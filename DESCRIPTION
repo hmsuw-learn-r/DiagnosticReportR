@@ -8,7 +8,7 @@ Authors@R: c(
 Description: A suite of functions desgined to streamline the process of
   comparing models and presenting these diagnostics as a standardized, compiled
   report.
-License: file LICENSE
+License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
