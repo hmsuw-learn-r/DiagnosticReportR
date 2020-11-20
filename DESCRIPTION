@@ -9,6 +9,8 @@ Description: A suite of functions desgined to streamline the process of
   comparing models and presenting these diagnostics as a standardized, compiled
   report.
 License: BSD_3_clause + file LICENSE
+URL: https://hmsuw-learn-r.github.io/DiagnosticReportR/, https://github.com/hmsuw-learn-r/DiagnosticReportR
+BugReports: https://github.com/hmsuw-learn-r/DiagnosticReportR/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
