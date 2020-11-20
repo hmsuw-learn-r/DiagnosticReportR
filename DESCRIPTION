@@ -4,8 +4,7 @@ Version: 0.0.0.9000
 Authors@R: c(
   person("Erin", "May", email = "erinam@uw.edu", role = c("cre", "aut")),
   person("Madeline", "Moberg", email = "mobergm@uw.edu", role = c("cre", "aut")),
-  person("Spencer", "Pease", email = "erinam@uw.edu", role = c("cre", "aut"))
-)
+  person("Spencer", "Pease", email = "erinam@uw.edu", role = c("cre", "aut")))
 Description: A suite of functions desgined to streamline the process of
   comparing models and presenting these diagnostics as a standardized, compiled
   report.
@@ -14,3 +13,6 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Suggests:
+    testthat
+Config/testthat/edition: 3
