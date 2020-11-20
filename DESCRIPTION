@@ -2,8 +2,8 @@ Package: DiagnosticReportR
 Title: Create and Present Model Diagnostics
 Version: 0.0.0.9000
 Authors@R: c(
-  person("Erin", "May", email = "erinam@uw.edu", role = c("cre", "aut")),
-  person("Madeline", "Moberg", email = "mobergm@uw.edu", role = c("cre", "aut")),
+  person("Erin", "May", email = "erinam@uw.edu", role = "aut"),
+  person("Madeline", "Moberg", email = "mobergm@uw.edu", role = "aut"),
   person("Spencer", "Pease", email = "erinam@uw.edu", role = c("cre", "aut")))
 Description: A suite of functions desgined to streamline the process of
   comparing models and presenting these diagnostics as a standardized, compiled
