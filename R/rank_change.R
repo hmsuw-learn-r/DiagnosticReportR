@@ -164,8 +164,8 @@ rank_changes <- function(new_data,
     
   } else {
     
-    new_var <- new_slope
-    old_var <- old_slope
+    new_var <- "new_slope"
+    old_var <- "old_slope"
   }
   
   change_data[, pert_diff := 
