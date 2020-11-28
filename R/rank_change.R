@@ -1,11 +1,7 @@
 # My notes to be removed:
 
-# Description: testing of level/trend differences function
-# Returns data.table with variable describing differences and corresponding rank
-# where 1st is the most changes
-# Need to flesh this out a little more. Especially the trend differences.
-
 # Need to check how function handles two groups with same value used for ranking
+# Write tests and use
 
 test_old <- get_mort_outputs("birth sex ratio", "estimate", gbd_year = 2019)
 test_new <- get_mort_outputs("birth sex ratio", "estimate", run_id = 72)
@@ -22,21 +18,21 @@ test_new <- get_mort_outputs("birth sex ratio", "estimate", run_id = 72)
 #' @param old_data `data.table()` Old version of data for comparison.
 #' @param change_type `character()` Type of comparison to be made. Must be one 
 #' of "level" or "trend".
-#' @param change_sig `numeric()` The value of change_sig depends on  
-#' change_type. For level changes, change_sig must be between 0 and 100
+#' @param threshold `numeric()` The value of threshold depends on  
+#' change_type. For level changes, threshold must be between 0 and 100
 #' (inclusive). It represents the maximum absolute percent difference of 
 #' comparison_var by group_vars to be included in the analysis. For trend
-#' changes, change_sig represents the number of bins to use in the trend 
-#' analysis within each grouping by group_vars. The default change_sig is 
+#' changes, threshold represents the number of bins to use in the trend 
+#' analysis within each grouping by group_vars. The default threshold is 
 #' 1, which would examine the change in the slope (i.e. change in comparison_var
 #'  over change in trend_var) by group_vars in the trend analysis, and would 
-#'  examine changes greater than 1% bygroup_vars in the level analysis.
+#'  examine changes greater than 1% by group_vars in the level analysis.
 #' @param comparison_var `character()` Outcome variable to make comparisons 
 #' over.
 #' @param id_vars `character()` Vector of variable names that uniquely identify
 #' both new_data and old_data.
 #' @param group_vars `character()` Level to summarize change variables for
-#' ranking. group_vars is a subset of id_vars.
+#' ranking. group_vars are a subset of id_vars.
 #' @param trend_var `character()` Predictor variable used to examine trend 
 #' changes. trend_var is a subset of id_vars of length 1.
 #'
@@ -61,10 +57,10 @@ test_new <- get_mort_outputs("birth sex ratio", "estimate", run_id = 72)
 rank_changes <- function(new_data,
                          old_data,
                          change_type,
-                         change_sig = 1,
+                         threshold = 1,
                          comparison_var,
                          id_vars,
-                         group_vars = NULL,
+                         group_vars,
                          trend_var = NULL) {
   
   # Check inputs ---------------------------------------------------------------
@@ -97,8 +93,8 @@ rank_changes <- function(new_data,
       stop("trend_var must be one of id_vars.")
     }
     
-    if(change_sig < 0 | change_sig > 100) {
-      stop("change_sig must be between 0 and 100.")
+    if(threshold < 0 | threshold > 100) {
+      stop("threshold must be between 0 and 100.")
     }
   }
   
@@ -107,6 +103,13 @@ rank_changes <- function(new_data,
     if(length(trend_var) != 1){
       stop("Trend changes can only be assessed by one variable.")
     }
+    
+    if(threshold < 1) stop("threshold must be greater than or equal to 1.")
+    
+    if!(is.integer(threshold)) {
+      stop("threshold must be integer for trend analysis.")
+    }
+    
   }
   
   # Warnings
@@ -122,30 +125,83 @@ rank_changes <- function(new_data,
   setnames(old_data, comparison_var, paste0("old_", comparison_var))
   old_comp <- paste0("old_", comparison_var)
   
-  comp_data <- merge(new_data, old_data, by = id_vars)
+  change_data <- merge(new_data, old_data, by = id_vars)
   
-  if(nrow(comp_data) == 0) stop("Merged data has zero rows. Check inputs.")
-  
-  # Assess level ---------------------------------------------------------------
-  
-  comp_data[, pert_diff := 
-              (get(new_comp) - get(old_comp)) / abs(get(old_comp)) * 100]
-  
-  comp_data[, max_abs_pert_diff := max(abs(pert_diff)), by = group_vars]
-
-  comp_data <- comp_data[max_abs_pert_diff >= change_sig]
-  
-  comp_data[, mean_abs_pert_diff := mean(abs(pert_diff)), by = group_vars]
-  
-  comp_data[order(mean_abs_pert_diff)]
-  
-  comp_data[, rank := 1:.N, by = group_vars]
+  if(nrow(change_data) == 0) stop("Merged data has zero rows. Check inputs.")
   
   # Assess trend ---------------------------------------------------------------
   
-  # Use lm() and compare coefficient on slope
+  if(change_type == "trend"){
+    
+    if(change_sig != 1){
+      
+      change_data[, bin := (trend_var, change_sig, labels = 1:change_sig),
+                  by = group_vars]
+      
+    } else {
+      
+      change_data[, bin := 1]
+    }
+    
+    change_data[, old_slope := coef(lm(old_comp ~ trend_var))[2], 
+                by = c(group_vars, bin)]
+    
+    change_data[, new_slope := coef(lm(new_comp ~ trend_var))[2], 
+                by = c(group_vars, bin)]
+    
+    change_data[, sign_change := 0]
+    change_data[(old_slope < 0 & new_slope > 0) | (old_slope > 0 & new_slope < 0),
+                sign_change := 1]
+    
+  }
+  
+  # Calculate percentage change ------------------------------------------------
+  
+  if(change_type == "level"){
+    
+    new_var <- new_comp
+    old_var <- old_comp
+    
+  } else {
+    
+    new_var <- new_slope
+    old_var <- old_slope
+  }
+  
+  change_data[, pert_diff := 
+                (get(new_var) - get(old_var)) / abs(get(old_var)) * 100]
+  
+  # Rank ---------------------------------------------------------------------
+  
+  if(change_type == "level") {
+    
+    change_data[, max_abs_pert_diff := max(abs(pert_diff)), by = group_vars]
+    
+    change_data <- change_data[max_abs_pert_diff >= threshold]
+    
+    if(nrow(change_data) == 0) {
+      
+      message(paste("There are no level changes at threshold:" threshold, "%"))
+    }
+    
+    change_data[, mean_abs_pert_diff := mean(abs(pert_diff)), by = group_vars]
+    
+    change_data[order(mean_abs_pert_diff)]
+    
+    change_data[, rank := 1:.N, by = group_vars]
+    
+  } else {
+    
+    change_data[, mean_abs_pert_diff := mean(abs(pert_diff)), 
+                by = c(group_vars, bin)]
+    
+    change_data[order(sign_change, mean_abs_pert_diff)]
+    
+    change_data[, rank := 1:.N, by = c(group_vars, bin)] 
+    
+  }
   
   # Final output ---------------------------------------------------------------
   
-  return(comp_data)
+  return(change_data)
 }
