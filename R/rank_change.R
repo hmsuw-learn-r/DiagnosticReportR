@@ -12,7 +12,10 @@ test_new <- get_mort_outputs("birth sex ratio", "estimate", run_id = 72)
 #'
 #' Make comparisons between two versions of the same outcome by some grouping
 #' variables. rank_change can make level (i.e. percentage change) and 
-#'trend (i.e. linear trend) comparisons.
+#'trend (i.e. linear trend) comparisons. Level changes are ranked by greatest
+#'mean absolute percentage change to the smallest. Trend changes are ranked 
+#' first by whether or not the slope changed sign and then by the greatest mean
+#' absolute percentage change to the smallest.
 #'
 #' @param new_data `data.table()` New version of data for comparison.
 #' @param old_data `data.table()` Old version of data for comparison.
