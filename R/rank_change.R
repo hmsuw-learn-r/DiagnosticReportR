@@ -20,31 +20,48 @@
 #' 1, which would examine the change in the slope (i.e. change in comparison_var
 #'  over change in trend_var) by group_vars in the trend analysis, and would
 #'  examine changes greater than 1% by group_vars in the level analysis.
-#' @param comparison_var `character()` Outcome variable to make comparisons
+#' @param comparison_var `numeric()` Outcome variable to make comparisons
 #' over.
-#' @param id_vars `character()` Vector of variable names that uniquely identify
+#' @param id_vars Vector of variable names that uniquely identify
 #' both new_data and old_data.
-#' @param group_vars `character()` Level to summarize change variables for
+#' @param group_vars Level to summarize change variables for
 #' ranking. group_vars are a subset of id_vars.
-#' @param trend_var `character()` Predictor variable used to examine trend
+#' @param trend_var `numeric()` Predictor variable used to examine trend
 #' changes. trend_var is a subset of id_vars of length 1.
 #'
 #' @return `data.table()` of ranked merged data.tables, which may be a subset
-#' of the merged data.tables. Rank number 1 corresponds to the greatest change
+#' of the input data.tables. Rank number 1 corresponds to the greatest change
 #' in comparison_var by group_vars between new_data and old_data, rank
 #' number 2 corresponds to the second greatest change in comparison_var by
-#' group_vars, etc.
+#' group_vars, etc. NOTE: Ranks may be duplicated by group if they have the same
+#' values used for ranking.
 #'
 #' @import data.table
 #' @import assertable
+#' @import stats
 #'
 #' @export
 #'
 #' @examples
-#' rank_change()
-#'
 #' \dontrun{
-#' rank_change()
+#' rank_change(new_data,
+#'             old_data,
+#'             change_type = "level",
+#'             threshold = 20,
+#'             comparison_var = "outcome",
+#'             id_vars = c("sex", "country", "year"),
+#'             group_vars = c("sex", "country"),
+#'             )
+#'
+#' rank_change(new_data,
+#'             old_data,
+#'             change_type = "trend",
+#'             threshold = 3,
+#'             comparison_var = "outcome",
+#'             id_vars = c("sex", "country", "year"),
+#'             group_vars = c("sex", "country"),
+#'             trend_var = "year"
+#'             )
 #' }
 
 rank_changes <- function(new_data,
@@ -56,14 +73,18 @@ rank_changes <- function(new_data,
                          group_vars,
                          trend_var = NULL) {
 
+  # arguments set up -----------------------------------------------------------
+
+  bin <- old_slope <- new_slope <- sign_change <- NULL
+  pert_diff <- abs_pert_diff <- max_abs_pert_diff <- mean_abs_pert_diff <- NULL
+
   # Check inputs ---------------------------------------------------------------
 
-  for(dt in c("new_data", "old_data"))
-  {
+  for(dt in c("new_data", "old_data")) {
     data <- get(dt)
     assert_values(data, names(data), "not_na")
     assert_colnames(data, c(id_vars, comparison_var))
-    if(sum(duplicated(data[, ..id_vars])) != 0) {
+    if(sum(duplicated(data[, id_vars, with = F])) != 0) {
       stop(paste("id_vars does not uniquely identify", dt))
     }
   }
@@ -74,7 +95,7 @@ rank_changes <- function(new_data,
 
   if(is.null(group_vars)) stop("group_vars cannot be null.")
 
-  if(!is.null(setdiff(group_vars, id_vars))) {
+  if(length(setdiff(group_vars, id_vars)) != 0) {
     stop("group_vars must be a subset of id_vars.")
   }
 
@@ -97,10 +118,8 @@ rank_changes <- function(new_data,
       stop("Trend changes can only be assessed by one variable.")
     }
 
-    if(threshold < 1) stop("threshold must be greater than or equal to 1.")
-
-    if(!is.integer(threshold)) {
-      stop("threshold must be integer for trend analysis.")
+    if(!is.integer(threshold) | threshold < 1) {
+      stop("threshold must be a non-negative integer for trend analysis.")
     }
 
   }
@@ -113,12 +132,15 @@ rank_changes <- function(new_data,
 
   # Combine data ---------------------------------------------------------------
 
-  setnames(new_data, comparison_var, paste0("new_", comparison_var))
+  new_dt <- copy(new_data)
+  old_dt <- copy(old_data)
+
+  setnames(new_dt, comparison_var, paste0("new_", comparison_var))
   new_comp <- paste0("new_", comparison_var)
-  setnames(old_data, comparison_var, paste0("old_", comparison_var))
+  setnames(old_dt, comparison_var, paste0("old_", comparison_var))
   old_comp <- paste0("old_", comparison_var)
 
-  change_data <- merge(new_data, old_data, by = id_vars)
+  change_data <- merge(new_dt, old_dt, by = id_vars)
 
   if(nrow(change_data) == 0) stop("Merged data has zero rows. Check inputs.")
 
@@ -126,9 +148,9 @@ rank_changes <- function(new_data,
 
   if(change_type == "trend"){
 
-    if(change_sig != 1){
+    if(threshold != 1){
 
-      change_data[, bin := cut(trend_var, change_sig, labels = 1:change_sig),
+      change_data[, bin := cut(get(trend_var), threshold, labels = 1:threshold),
                   by = group_vars]
 
     } else {
@@ -136,11 +158,11 @@ rank_changes <- function(new_data,
       change_data[, bin := 1]
     }
 
-    change_data[, old_slope := coef(lm(old_comp ~ trend_var))[2],
-                by = c(group_vars, bin)]
+    change_data[, old_slope := coef(lm(get(old_comp) ~ get(trend_var)))[2],
+                by = c(group_vars, "bin")]
 
-    change_data[, new_slope := coef(lm(new_comp ~ trend_var))[2],
-                by = c(group_vars, bin)]
+    change_data[, new_slope := coef(lm(get(new_comp) ~ get(trend_var)))[2],
+                by = c(group_vars, "bin")]
 
     change_data[, sign_change := 0]
     change_data[(old_slope < 0 & new_slope > 0) | (old_slope > 0 & new_slope < 0),
@@ -162,7 +184,7 @@ rank_changes <- function(new_data,
   }
 
   change_data[, pert_diff :=
-                (get(new_var) - get(old_var)) / abs(get(old_var)) * 100]
+                ((get(new_var) - get(old_var)) / abs(get(old_var))) * 100]
 
   # Rank ---------------------------------------------------------------------
 
@@ -179,18 +201,18 @@ rank_changes <- function(new_data,
 
     change_data[, mean_abs_pert_diff := mean(abs(pert_diff)), by = group_vars]
 
-    change_data[order(mean_abs_pert_diff)]
-
-    change_data[, rank := 1:.N, by = group_vars]
+    change_data <- change_data[order(mean_abs_pert_diff, decreasing = T)]
+    change_data[, rank := frank(-mean_abs_pert_diff, ties.method = "dense")]
 
   } else {
 
-    change_data[, mean_abs_pert_diff := mean(abs(pert_diff)),
-                by = c(group_vars, bin)]
+    change_data[, abs_pert_diff := abs(pert_diff),
+                by = c(group_vars, "bin")]
 
-    change_data[order(sign_change, mean_abs_pert_diff)]
-
-    change_data[, rank := 1:.N, by = c(group_vars, bin)]
+    change_data <- change_data[order(sign_change, abs_pert_diff,
+                                     decreasing = T)]
+    change_data[, rank := frank(list(-sign_change, -abs_pert_diff),
+                                ties.method = "dense")]
 
   }
 
