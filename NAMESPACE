@@ -2,3 +2,4 @@
 
 export(available_report_templates)
 export(example_add)
+export(generate_report)
