@@ -6,8 +6,8 @@
 #' @export
 #'
 #' @examples
-#' available_report_templates()
-available_report_templates <- function() {
+#' list_templates()
+list_templates <- function() {
 
   template_dir <- system.file(
     "report_templates",

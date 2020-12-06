@@ -35,10 +35,11 @@ generate_report <- function(template,
     stop("Only a single template can be specified.")
   }
 
-  if (!template %in% available_report_templates()) {
+  if (!template %in% list_templates()) {
     stop(paste0(
       "'", template, "'", "cannot be found in the available report templates. ",
-      "Try running `available_report_templates()` to see possible templates."
+      "Try running `DiagnosticReportR::list_templates()` to see possible ",
+      "templates."
     ))
   }
 
