@@ -4,7 +4,7 @@
 #' variables. rank_change can make level (i.e. percentage change) and
 #' trend (i.e. linear trend) comparisons. Level changes are ranked by the
 #' greatest mean absolute percentage change to the smallest. Trend changes are
-#' ranked first by whether or not the slope changed sign and then by the
+#' ranked first by the number of slopes changed sign and then by the
 #' greatest mean absolute percentage change to the smallest.
 #'
 #' @param new_data `data.table()` New version of data for comparison.
@@ -12,8 +12,8 @@
 #' @param change_type `character()` Type of comparison to be made. Must be one
 #' of "level" or "trend".
 #' @param threshold `numeric()` The value of threshold depends on
-#' change_type. For level changes, threshold must be between 0 and 100
-#' (inclusive). It represents the maximum absolute percent difference of
+#' change_type. For level changes, the threshold must be greater than or equal
+#' to zero. It represents the maximum absolute percent difference of
 #' comparison_var by group_vars to be included in the analysis. For trend
 #' changes, threshold represents the number of bins to use in the trend
 #' analysis within each grouping by group_vars. The default threshold is
@@ -75,15 +75,15 @@ rank_changes <- function(new_data,
 
   # arguments set up -----------------------------------------------------------
 
-  bin <- old_slope <- new_slope <- sign_change <- NULL
-  pert_diff <- abs_pert_diff <- max_abs_pert_diff <- mean_abs_pert_diff <- NULL
+  bin <- old_slope <- new_slope <- sign_change <- numb_sign_change <-  NULL
+  pert_diff <- max_abs_pert_diff <- mean_abs_pert_diff <- NULL
 
   # Check inputs ---------------------------------------------------------------
 
   for(dt in c("new_data", "old_data")) {
     data <- get(dt)
-    assert_values(data, names(data), "not_na")
-    assert_colnames(data, c(id_vars, comparison_var))
+    assert_values(data, names(data), "not_na", quiet = T)
+    assert_colnames(data, c(id_vars, comparison_var), quiet = T)
     if(sum(duplicated(data[, id_vars, with = F])) != 0) {
       stop(paste("id_vars does not uniquely identify", dt))
     }
@@ -107,8 +107,8 @@ rank_changes <- function(new_data,
       stop("trend_var must be one of id_vars.")
     }
 
-    if(threshold < 0 | threshold > 100) {
-      stop("threshold must be between 0 and 100.")
+    if(threshold < 0) {
+      stop("threshold uses absolute values. It must be greater than zero.")
     }
   }
 
@@ -201,17 +201,30 @@ rank_changes <- function(new_data,
 
     change_data[, mean_abs_pert_diff := mean(abs(pert_diff)), by = group_vars]
 
-    change_data <- change_data[order(mean_abs_pert_diff, decreasing = T)]
+    change_data <- setorderv(change_data,
+                             cols = c("mean_abs_pert_diff", group_vars),
+                             order = -1)
+
     change_data[, rank := frank(-mean_abs_pert_diff, ties.method = "dense")]
 
   } else {
 
-    change_data[, abs_pert_diff := abs(pert_diff),
-                by = c(group_vars, "bin")]
+    change_data[, mean_abs_pert_diff := mean(abs(pert_diff)),
+                by = group_vars]
 
-    change_data <- change_data[order(sign_change, abs_pert_diff,
-                                     decreasing = T)]
-    change_data[, rank := frank(list(-sign_change, -abs_pert_diff),
+    sign_vars <- c(group_vars, "bin", "sign_change")
+    sign_data <- unique(change_data[, sign_vars, with = F])
+    sign_data[, numb_sign_change := sum(sign_change), by = group_vars]
+    sign_data <- unique(sign_data[, c("bin", "sign_change") := NULL])
+
+    change_data <- merge(change_data, sign_data, by = group_vars)
+
+    change_data <- setorderv(change_data,
+                             cols = c("numb_sign_change", "mean_abs_pert_diff",
+                                      group_vars),
+                             order = -1)
+
+    change_data[, rank := frank(list(-numb_sign_change, -mean_abs_pert_diff),
                                 ties.method = "dense")]
 
   }

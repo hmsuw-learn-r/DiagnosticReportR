@@ -24,8 +24,8 @@ rank_changes(
 of "level" or "trend".}
 
 \item{threshold}{\code{numeric()} The value of threshold depends on
-change_type. For level changes, threshold must be between 0 and 100
-(inclusive). It represents the maximum absolute percent difference of
+change_type. For level changes, the threshold must be greater than or equal
+to zero. It represents the maximum absolute percent difference of
 comparison_var by group_vars to be included in the analysis. For trend
 changes, threshold represents the number of bins to use in the trend
 analysis within each grouping by group_vars. The default threshold is
@@ -58,7 +58,7 @@ Make comparisons between two versions of the same outcome by some grouping
 variables. rank_change can make level (i.e. percentage change) and
 trend (i.e. linear trend) comparisons. Level changes are ranked by the
 greatest mean absolute percentage change to the smallest. Trend changes are
-ranked first by whether or not the slope changed sign and then by the
+ranked first by the number of slopes changed sign and then by the
 greatest mean absolute percentage change to the smallest.
 }
 \examples{
