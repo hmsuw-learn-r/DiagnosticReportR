@@ -4,27 +4,63 @@ rm(list=ls())
 
 library(ggplot2)
 
-# Test road injury incidence estimate comparison data
-age_std_inc <- as.data.table(read.csv("/ihme/scratch/users/mobergm/road_inj_inc_age_std.csv"))
-all_age_inc <- as.data.table(read.csv("/ihme/scratch/users/mobergm/road_inj_inc_ages_year_2019.csv"))
+# Test data: road injury incidence estimate comparison data (country level, compare GBD 2019 and GBD 2020 best)
+road_inj_inc <- as.data.table(read.csv("/ihme/scratch/users/mobergm/road_inj_inc.csv"))
 
-# Test results from rank_changes function for birth sex ratio estimates
+# Test data: results from rank_changes function, for birth sex ratios
 level_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/level_changes.csv"))
 trend_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/trend_changes.csv"))
 
-# Compare results from model 1 to model 2 by year (time trends)
-# Facet wrap or facet grid
-# Option to include a title
-# Option to choose colors
-plot_trends <- function(data, 
-                        year_var,
-                        y1_var, 
-                        y2_var,
-                        facet_x = NULL, 
-                        facet_y = NULL, 
-                        title = NULL,
-                        facet_type = "none",
-                        colors = c("dodgerblue", "deeppink4")){
+#' plot_time_trends
+#' 
+#' This function can be used to visualize the results of the rank_change function, or to otherwise 
+#' compare values from two different model versions or sets of estimates. This can help streamline 
+#' the vetting process. All characteristics for each estimate should be matched, e.g. year, location, 
+#' age. Plot_time_trends creates plots of the estimates over some unit of time comparing the two sets
+#' of results. This could be used for time trends across years, or age patterns. The options for faceting 
+#' or coloring allow the user to customize the plot to maximize utility. This function assumes that the
+#' two sets of estimates are in two different columns, e.g. old_mean and new_mean, and uses pivot_longer
+#' from tidyr to reshape the data long to make plotting more straightforward and flexible. 
+#'
+#' @param data data.frame or data.table. Data to plot comparing two sets of estimates, e.g. 
+#' output of rank_change function. Required!
+#' @param time_var Character. Variable name for time, e.g. year/year_id or ages. Required!
+#' @param y1_var Character. Variable name for first set of results/estimates, e.g. the previous or
+#'  old set for comparison. Required!
+#' @param y2_var Character. Variable name for second set of results/estimates, e.g. the updated 
+#' or new set for comparison. Required!
+#' @param facet_x Character. Variable to facet by, along x-axis. This is required in order to use 
+#' facet_wrap and facet_grid. Defaults to NULL.
+#' @param facet_y Character. Variable to facet by, along y-axis, if desired. This is required in 
+#' order to use facet_grid. Defaults to NULL.
+#' @param title Character. Title of plot, if desired. Defaults to NULL.
+#' @param facet_type Character. Choice of "none", "wrap", or "grid". Defaults to "none". The "none"
+#' option will create a single plot. The "wrap" option will produce a plot using facet_wrap. The "grid" 
+#' option will produce a plot using facet_grid. Required!
+#' @param colors Vector. This vector would contain the name of two colors to be used in the plot 
+#' to differentiate the two versions or sets of values. This defaults to dodgerblue and deeppink4, 
+#' but can be otherwise specified by the user.
+#'
+#' @return A ggplot object. 
+#' 
+#' @import tidyr 
+#' @import ggplot
+#' 
+#' @export
+#'
+#' @examples
+#' plot_time_trends(changes_df, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", colors = c("blue", "red))
+#' plot_time_trends(changes_df, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", facet_x = "age", facet_y = "sex", facet_type = "grid")
+#' plot_time_trends(changes_df, time_var = "age", y1_var = "old_mean", y2_var = "new_mean", facet_x = "location_id")
+plot_time_trends <- function(data, 
+                             time_var,
+                             y1_var, 
+                             y2_var,
+                             facet_x = NULL, 
+                             facet_y = NULL, 
+                             title = NULL,
+                             facet_type = "none",
+                             colors = c("dodgerblue", "deeppink4")){
   
   longer <- tidyr::pivot_longer(data, 
                                 cols = c(y1_var, y2_var),
@@ -33,8 +69,8 @@ plot_trends <- function(data,
   
   if (facet_type == "none" & is.null(facet_x) & is.null(facet_y)){
     ggplot(longer) + 
-      geom_line(aes_string(x = year_var, y = "estimate", color = "version"), size = 1) + 
-      geom_point(aes_string(x = year_var, y = "estimate", color = "version"), size = 2, alpha = 0.5) + 
+      geom_line(aes_string(x = time_var, y = "estimate", color = "version"), size = 1) + 
+      geom_point(aes_string(x = time_var, y = "estimate", color = "version"), size = 2, alpha = 0.5) + 
       ggtitle(title) + 
       scale_color_manual(values = colors)
   }
@@ -44,8 +80,8 @@ plot_trends <- function(data,
     facet_formula <- as.formula(paste(facet_y, facet_x, sep = " ~ "))
     
     ggplot(longer) +
-      geom_line(aes_string(x = year_var, y = "estimate", color = "version"), size = 1) + 
-      geom_point(aes_string(x = year_var, y = "estimate", color = "version"), size = 2, alpha = 0.5) + 
+      geom_line(aes_string(x = time_var, y = "estimate", color = "version"), size = 1) + 
+      geom_point(aes_string(x = time_var, y = "estimate", color = "version"), size = 2, alpha = 0.5) + 
       facet_wrap(facet_formula, scales = "free") + 
       ggtitle(title) +
       scale_color_manual(values = colors)
@@ -56,8 +92,8 @@ plot_trends <- function(data,
     facet_formula <- as.formula(paste(facet_y, facet_x, sep = " ~ "))
     
     ggplot(longer) +
-      geom_line(aes_string(x = year_var, y = "estimate", color = "version"), size = 1) + 
-      geom_point(aes_string(x = year_var, y = "estimate", color = "version"), size = 2, alpha = 0.5) + 
+      geom_line(aes_string(x = time_var, y = "estimate", color = "version"), size = 1) + 
+      geom_point(aes_string(x = time_var, y = "estimate", color = "version"), size = 2, alpha = 0.5) + 
       facet_grid(facet_formula, scales = "free") + 
       scale_color_manual(values = colors)
       ggtitle(title)
