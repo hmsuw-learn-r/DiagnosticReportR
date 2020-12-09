@@ -40,6 +40,9 @@ trend_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/tre
 #' @param colors Vector. This vector would contain the name of two colors to be used in the plot 
 #' to differentiate the two versions or sets of values. This defaults to dodgerblue and deeppink4, 
 #' but can be otherwise specified by the user.
+#' @param my_labs Vector. This vector would contain the labels/names you want to use for the two different sets of 
+#' estimates. If left blank this will default to the column names for y1_var and y2_var. 
+#' @param line_size `numeric()` Can select line thickness. Default is 2. 
 #'
 #' @return A ggplot object. 
 #' 
@@ -60,7 +63,9 @@ plot_trends <- function(data,
                         facet_y = NULL, 
                         title = NULL,
                         facet_type = "none",
-                        colors = c("dodgerblue", "deeppink4")){
+                        colors = c("dodgerblue", "deeppink4"),
+                        my_labs = c(y1_var, y2_var), 
+                        line_size = 2){
   
   longer <- tidyr::pivot_longer(data, 
                                 cols = c(y1_var, y2_var),
@@ -69,10 +74,9 @@ plot_trends <- function(data,
   
   if (facet_type == "none"){
     ggplot(longer) + 
-      geom_line(aes_string(x = time_var, y = "estimate", color = "version"), size = 1) + 
-      geom_point(aes_string(x = time_var, y = "estimate", color = "version"), size = 2, alpha = 0.5) + 
+      geom_line(aes_string(x = time_var, y = "estimate", color = "version")) + 
       ggtitle(title) + 
-      scale_color_manual(values = colors)
+      scale_color_manual(values = colors, labels = my_labs)
   }
   
   else if (facet_type == "wrap" & is.character(facet_x)){
@@ -80,11 +84,10 @@ plot_trends <- function(data,
     facet_formula <- as.formula(paste(facet_y, facet_x, sep = " ~ "))
     
     ggplot(longer) +
-      geom_line(aes_string(x = time_var, y = "estimate", color = "version"), size = 1) + 
-      geom_point(aes_string(x = time_var, y = "estimate", color = "version"), size = 2, alpha = 0.5) + 
+      geom_line(aes_string(x = time_var, y = "estimate", color = "version")) + 
       facet_wrap(facet_formula, scales = "free") + 
       ggtitle(title) +
-      scale_color_manual(values = colors)
+      scale_color_manual(values = colors, labels = my_labs)
   }
   
   else if (facet_type == "grid" & is.character(facet_x) & is.character(facet_y)){
@@ -92,10 +95,9 @@ plot_trends <- function(data,
     facet_formula <- as.formula(paste(facet_y, facet_x, sep = " ~ "))
     
     ggplot(longer) +
-      geom_line(aes_string(x = time_var, y = "estimate", color = "version"), size = 1) + 
-      geom_point(aes_string(x = time_var, y = "estimate", color = "version"), size = 2, alpha = 0.5) + 
+      geom_line(aes_string(x = time_var, y = "estimate", color = "version")) + 
       facet_grid(facet_formula, scales = "free") + 
-      scale_color_manual(values = colors)
+      scale_color_manual(values = colors, labels = my_labs) +
       ggtitle(title)
   }
   
@@ -105,3 +107,16 @@ plot_trends <- function(data,
   
 }
 
+my_trends <- plot_trends(level_changes[rank <= 10],
+            time_var = "year_id",
+            y1_var = "old_mean",
+            y2_var = "new_mean",
+            facet_type = "wrap",
+            facet_x = "ihme_loc_id",
+            my_labs = c("previous", "new"))
+
+my_trends + 
+  xlab("Year") + 
+  ylab("Birth Sex Ratio Estimate") + 
+  labs(color = "Version") +
+  ggtitle("Top 10 locations in mean absolute percent difference between model versions")

@@ -25,9 +25,11 @@ trend_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/tre
 #' @param facet_x `character()` Variable to facet by, along x-axis. This is required in order to use facet_wrap and facet_grid. Defaults to NULL.
 #' @param facet_y `character()` Variable to facet by, along y-axis, if desired. This is required in order to use facet_grid. Defaults to NULL.
 #' @param color_pt `character()` Variable to modify color of geom_point, if desired. Defaults to NULL.
+#' @param pt_size `numeric()` Option to modify point size. Defaults to 1. 
 #' @param title `character()` Title for plot, if desired. Defaults to NULL.
 #' @param facet_type `character()` Choice of "none", "wrap", or "grid". Defaults to "none". The "none" option will create a single plot. 
-#' The "wrap" option will produce a plot using facet_wrap. The "grid" option will produce a plot using facet_grid. Required!
+#' The "wrap" option will produce a plot using facet_wrap. The "grid" option will produce a plot using facet_grid. 
+#' @param fix_scale `boolean()` Option to fix the axes for plot, using the min and max values. Defaults to FALSE. Will override scales = "free".
 #'
 #' @return A ggplot object
 #' 
@@ -44,16 +46,18 @@ plot_scatter <- function(data,
                          facet_x, 
                          facet_y = NULL, 
                          color_pt = NULL,
+                         pt_size = 1,
                          title = NULL,
-                         facet_type = "none"){
+                         facet_type = "none",
+                         fix_scale = FALSE){
   
+  data <- as.data.table(data)
   
   if (facet_type == "none"){
     
-    ggplot(data) + 
-      geom_point(aes_string(x = x_val, y = y_val, color = color_pt)) + 
+    my_scatter <- ggplot(data) + 
+      geom_point(aes_string(x = x_var, y = y_var, color = color_pt), size = pt_size, alpha = 0.7) + 
       geom_abline(slope = 1, size = 0.5, color = "grey") + 
-      facet_wrap(facet_formula, scales = "free") + 
       ggtitle(title)
       
   }
@@ -62,8 +66,8 @@ plot_scatter <- function(data,
     
     facet_formula <- as.formula(paste(facet_y, facet_x, sep = " ~ "))
     
-    ggplot(data) +
-      geom_point(aes_string(x = x_val, y = y_val, color = color_pt)) + 
+    my_scatter <- ggplot(data) + 
+      geom_point(aes_string(x = x_var, y = y_var, color = color_pt), size = pt_size, alpha = 0.7) + 
       geom_abline(slope = 1, size = 0.5, color = "grey") + 
       facet_wrap(facet_formula, scales = "free") + 
       ggtitle(title)
@@ -73,8 +77,8 @@ plot_scatter <- function(data,
     
     facet_formula <- as.formula(paste(facet_y, facet_x, sep = " ~ "))
     
-    ggplot(data) +
-      geom_point(aes_string(x = x_val, y = y_val, color = color_pt)) + 
+    my_scatter <- ggplot(data) +
+      geom_point(aes_string(x = x_var, y = y_var, color = color_pt), size = pt_size, alpha = 0.7) + 
       geom_abline(slope = 1, size = 0.5, color = "grey") +
       facet_grid(facet_formula, scales = "free") + 
       ggtitle(title)
@@ -84,6 +88,31 @@ plot_scatter <- function(data,
     stop("Are all variable names character strings? Did you specify your facet_type correctly, based on facet_x and facet_y?")
   }
   
+  if (fix_scale == TRUE){
+    my_scatter <- my_scatter + 
+                    scale_x_continuous(limits = c(min(data[, ..x_var], data[, ..y_var]), max(data[, ..x_var], data[, ..y_var]))) +
+                    scale_y_continuous(limits = c(min(data[, ..x_var], data[, ..y_var]), max(data[, ..x_var], data[, ..y_var]))) 
+  }
+  
+  return(my_scatter)
 }
 
-
+# test <- plot_scatter(road_inj_inc[age_group_id == 27 & year_id > 1995], 
+#              x_var = "mean_19",
+#              y_var = "mean_20",
+#              facet_x = "year_id",
+#              facet_y = "sex_id",
+#              facet_type = "grid",
+#              pt_size = 2,
+#              color_pt = "super_region_name")
+# 
+# test <- test +
+#   xlab("GBD 2019 best model") +
+#   ylab("GBD 2020 best model") +
+#   labs(color = "Super Region") +
+#   ggtitle("Comparing national level estimates for age-standardized road injury incidence") +
+#   scale_color_manual(values = c("#fa782a","#dc5356","#c84b98","#6949c2","#2a53cd","#64b95e","#2aa3cd")) 
+#   
+# pdf("/ihme/scratch/users/mobergm/road_inj_scatter.pdf", width = 14, height = 6)
+# test
+# dev.off()
