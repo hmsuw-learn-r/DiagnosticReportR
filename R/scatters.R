@@ -48,7 +48,7 @@ plot_scatter <- function(data,
                          facet_type = "none"){
   
   
-  if (facet_type == "none" & is.null(facet_x) & is.null(facet_y)){
+  if (facet_type == "none"){
     
     ggplot(data) + 
       geom_point(aes_string(x = x_val, y = y_val, color = color_pt)) + 
@@ -58,7 +58,7 @@ plot_scatter <- function(data,
       
   }
   
-  else if (facet_type == "wrap" & is.character(facet_x){
+  else if (facet_type == "wrap" & is.character(facet_x)){
     
     facet_formula <- as.formula(paste(facet_y, facet_x, sep = " ~ "))
     

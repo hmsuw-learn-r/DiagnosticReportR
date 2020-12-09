@@ -67,7 +67,7 @@ plot_trends <- function(data,
                                 names_to = "version",
                                 values_to = "estimate")
   
-  if (facet_type == "none" & is.null(facet_x) & is.null(facet_y)){
+  if (facet_type == "none"){
     ggplot(longer) + 
       geom_line(aes_string(x = time_var, y = "estimate", color = "version"), size = 1) + 
       geom_point(aes_string(x = time_var, y = "estimate", color = "version"), size = 2, alpha = 0.5) + 
@@ -75,7 +75,7 @@ plot_trends <- function(data,
       scale_color_manual(values = colors)
   }
   
-  else if (facet_type == "wrap" & is.character(facet_x) & is.null(facet_y)){
+  else if (facet_type == "wrap" & is.character(facet_x)){
     
     facet_formula <- as.formula(paste(facet_y, facet_x, sep = " ~ "))
     
