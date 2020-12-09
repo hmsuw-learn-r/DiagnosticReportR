@@ -1,4 +1,4 @@
-# Testing plots to review/compare overall changes (via scatters) from level changes
+# Testing plots to review/compare overall changes (via scatters)
 
 rm(list=ls())
 

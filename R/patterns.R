@@ -1,4 +1,4 @@
-# Testing plots to review/compare time trends 
+# Testing plots to review/compare estimates over time, age, etc. 
 
 rm(list=ls())
 
@@ -11,12 +11,12 @@ road_inj_inc <- as.data.table(read.csv("/ihme/scratch/users/mobergm/road_inj_inc
 level_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/level_changes.csv"))
 trend_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/trend_changes.csv"))
 
-#' plot_time_trends
+#' plot_trends
 #' 
 #' This function can be used to visualize the results of the rank_change function, or to otherwise 
 #' compare values from two different model versions or sets of estimates. This can help streamline 
 #' the vetting process. All characteristics for each estimate should be matched, e.g. year, location, 
-#' age. Plot_time_trends creates plots of the estimates over some unit of time comparing the two sets
+#' age. plot_trends creates plots of the estimates over some unit of time comparing the two sets
 #' of results. This could be used for time trends across years, or age patterns. The options for faceting 
 #' or coloring allow the user to customize the plot to maximize utility. This function assumes that the
 #' two sets of estimates are in two different columns, e.g. old_mean and new_mean, and uses pivot_longer
@@ -49,18 +49,18 @@ trend_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/tre
 #' @export
 #'
 #' @examples
-#' plot_time_trends(changes_df, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", colors = c("blue", "red))
-#' plot_time_trends(changes_df, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", facet_x = "age", facet_y = "sex", facet_type = "grid")
-#' plot_time_trends(changes_df, time_var = "age", y1_var = "old_mean", y2_var = "new_mean", facet_x = "location_id")
-plot_time_trends <- function(data, 
-                             time_var,
-                             y1_var, 
-                             y2_var,
-                             facet_x = NULL, 
-                             facet_y = NULL, 
-                             title = NULL,
-                             facet_type = "none",
-                             colors = c("dodgerblue", "deeppink4")){
+#' plot_trends(changes_df, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", colors = c("blue", "red))
+#' plot_trends(changes_df, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", facet_x = "age", facet_y = "sex", facet_type = "grid")
+#' plot_trends(changes_df, time_var = "age", y1_var = "old_mean", y2_var = "new_mean", facet_x = "location_id")
+plot_trends <- function(data, 
+                        time_var,
+                        y1_var, 
+                        y2_var,
+                        facet_x = NULL, 
+                        facet_y = NULL, 
+                        title = NULL,
+                        facet_type = "none",
+                        colors = c("dodgerblue", "deeppink4")){
   
   longer <- tidyr::pivot_longer(data, 
                                 cols = c(y1_var, y2_var),
