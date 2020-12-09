@@ -22,19 +22,19 @@ trend_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/tre
 #' two sets of estimates are in two different columns, e.g. old_mean and new_mean, and uses pivot_longer
 #' from tidyr to reshape the data long to make plotting more straightforward and flexible. 
 #'
-#' @param data data.frame or data.table. Data to plot comparing two sets of estimates, e.g. 
+#' @param data data.table or data.frame. Data to plot comparing two sets of estimates, e.g. 
 #' output of rank_change function. Required!
-#' @param time_var Character. Variable name for time, e.g. year/year_id or ages. Required!
-#' @param y1_var Character. Variable name for first set of results/estimates, e.g. the previous or
+#' @param time_var `character()` Variable name for time, e.g. year/year_id or ages. Required!
+#' @param y1_var `character()` Variable name for first set of results/estimates, e.g. the previous or
 #'  old set for comparison. Required!
-#' @param y2_var Character. Variable name for second set of results/estimates, e.g. the updated 
+#' @param y2_var `character()` Variable name for second set of results/estimates, e.g. the updated 
 #' or new set for comparison. Required!
-#' @param facet_x Character. Variable to facet by, along x-axis. This is required in order to use 
+#' @param facet_x `character()` Variable to facet by, along x-axis. This is required in order to use 
 #' facet_wrap and facet_grid. Defaults to NULL.
-#' @param facet_y Character. Variable to facet by, along y-axis, if desired. This is required in 
+#' @param facet_y `character()` Variable to facet by, along y-axis, if desired. This is required in 
 #' order to use facet_grid. Defaults to NULL.
-#' @param title Character. Title of plot, if desired. Defaults to NULL.
-#' @param facet_type Character. Choice of "none", "wrap", or "grid". Defaults to "none". The "none"
+#' @param title `character()` Title of plot, if desired. Defaults to NULL.
+#' @param facet_type `character()` Choice of "none", "wrap", or "grid". Defaults to "none". The "none"
 #' option will create a single plot. The "wrap" option will produce a plot using facet_wrap. The "grid" 
 #' option will produce a plot using facet_grid. Required!
 #' @param colors Vector. This vector would contain the name of two colors to be used in the plot 
