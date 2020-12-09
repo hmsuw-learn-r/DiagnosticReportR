@@ -76,7 +76,7 @@ rank_changes <- function(new_data,
   # arguments set up -----------------------------------------------------------
 
   bin <- old_slope <- new_slope <- sign_change <- numb_sign_change <-  NULL
-  pert_diff <- max_abs_pert_diff <- mean_abs_pert_diff <- NULL
+  min_group_size <- pert_diff <- max_abs_pert_diff <- mean_abs_pert_diff <- NULL
 
   # Check inputs ---------------------------------------------------------------
 
@@ -120,6 +120,13 @@ rank_changes <- function(new_data,
 
     if(!is.integer(threshold) | threshold < 1) {
       stop("threshold must be a non-negative integer for trend analysis.")
+    }
+
+    min_group_size <- min(c(old_data[, .N, by = group_vars]$N,
+                            new_data[, .N, by = group_vars]$N))
+
+    if((min_group_size / threshold) < 2) {
+      stop("A regression cannot be fit with <2 rows in a sub-group")
     }
 
   }
