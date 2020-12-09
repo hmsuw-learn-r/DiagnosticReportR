@@ -20,13 +20,13 @@ trend_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/tre
 #'
 #'
 #' @param data data.frame or data.table. Data to plot comparing two sets of estimates, e.g. output of rank_change function. Required!
-#' @param x_var Character. Variable to plot on the x-axis, e.g the "old" version or previous estimate. Required!
-#' @param y_var Character. Variable to plot on the y-axis, e.g. the "new" version or updated estimate. Required!
-#' @param facet_x Character. Variable to facet by, along x-axis. This is required in order to use facet_wrap and facet_grid. Defaults to NULL.
-#' @param facet_y Character. Variable to facet by, along y-axis, if desired. This is required in order to use facet_grid. Defaults to NULL.
-#' @param color_pt Character. Variable to modify color of geom_point, if desired. Defaults to NULL.
-#' @param title Character. Title for plot, if desired. Defaults to NULL.
-#' @param facet_type Character. Choice of "none", "wrap", or "grid". Defaults to "none". The "none" option will create a single plot. 
+#' @param x_var `character()` Variable to plot on the x-axis, e.g the "old" version or previous estimate. Required!
+#' @param y_var `character()` Variable to plot on the y-axis, e.g. the "new" version or updated estimate. Required!
+#' @param facet_x `character()` Variable to facet by, along x-axis. This is required in order to use facet_wrap and facet_grid. Defaults to NULL.
+#' @param facet_y `character()` Variable to facet by, along y-axis, if desired. This is required in order to use facet_grid. Defaults to NULL.
+#' @param color_pt `character()` Variable to modify color of geom_point, if desired. Defaults to NULL.
+#' @param title `character()` Title for plot, if desired. Defaults to NULL.
+#' @param facet_type `character()` Choice of "none", "wrap", or "grid". Defaults to "none". The "none" option will create a single plot. 
 #' The "wrap" option will produce a plot using facet_wrap. The "grid" option will produce a plot using facet_grid. Required!
 #'
 #' @return A ggplot object
