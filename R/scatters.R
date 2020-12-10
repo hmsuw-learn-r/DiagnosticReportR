@@ -1,16 +1,3 @@
-# Testing plots to review/compare overall changes (via scatters)
-
-rm(list=ls())
-
-library(ggplot2)
-
-# Test data: road injury incidence estimate comparison data (country level, compare GBD 2019 and GBD 2020 best)
-road_inj_inc <- as.data.table(read.csv("/ihme/scratch/users/mobergm/road_inj_inc.csv"))
-
-# Test data: results from rank_changes function, for birth sex ratios
-level_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/level_changes.csv"))
-trend_changes <- as.data.table(read.csv("/ihme/scratch/users/erinam/520_proj/trend_changes.csv"))
-
 #' plot_scatter
 #' 
 #' This function can be used to visualize the results of the rank_change function, or to otherwise compare values from two 
