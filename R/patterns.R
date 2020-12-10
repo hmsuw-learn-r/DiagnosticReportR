@@ -40,7 +40,6 @@
 #'
 #' @examples
 #' \dontrun{plot_trends(trend_changes, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", colors = c("blue", "red"))}
-#' \dontrun{plot_trends(trend_changes, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", facet_x = "age", facet_y = "sex", facet_type = "grid")}
 plot_trends <- function(data, 
                         time_var,
                         y1_var, 
