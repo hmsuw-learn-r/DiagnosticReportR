@@ -65,8 +65,5 @@ two sets of estimates are in two different columns, e.g. old_mean and new_mean, 
 from tidyr to reshape the data long to make plotting more straightforward and flexible.
 }
 \examples{
-\dontrun{plot_trends(changes_df, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", colors = c("blue", "red"))}
-\dontrun{plot_trends(changes_df, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", facet_x = "age", facet_y = "sex", facet_type = "grid")}
-\dontrun{plot_trends(changes_df, time_var = "age", y1_var = "old_mean", y2_var = "new_mean", facet_x = "location_id")}
-
+\dontrun{plot_trends(trend_changes, time_var = "year_id", y1_var = "old_mean", y2_var = "new_mean", colors = c("blue", "red"))}
 }
