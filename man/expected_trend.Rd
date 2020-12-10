@@ -34,6 +34,7 @@ expected_trend
 }
 \description{
 The expected trend analysis associated with the test on old_data and
-new_data by the grouping variable. The variables are as follows:
+new_data by the grouping variable. See the tests for input arguements.
+The variables are as follows:
 }
 \keyword{datasets}

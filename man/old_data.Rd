@@ -3,7 +3,7 @@
 \docType{data}
 \name{old_data}
 \alias{old_data}
-\title{An outcome variable measured over time for different groups}
+\title{An old outcome variable measured over time for different groups}
 \format{
 A data frame with 9 rows and 3 variables:
 \describe{

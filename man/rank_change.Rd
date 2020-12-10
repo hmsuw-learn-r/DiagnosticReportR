@@ -8,7 +8,7 @@ rank_change(
   new_data,
   old_data,
   change_type,
-  threshold = 1,
+  threshold = 1L,
   comparison_var,
   id_vars,
   group_vars,
