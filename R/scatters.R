@@ -25,8 +25,8 @@
 #' @export
 #'
 #' @examples 
-#' plot_scatter(data = changes_df, x_var = "old_mean", y_var = "new_mean", facet_x = "ihme_loc_id", color_pt = "year_id", facet_type = "wrap")
-#' plot_scatter(data = changes_df, x_var = "old_mean", y_var = "new_mean, facet_x = "ihme_loc_id", facet_y = "sex_id, facet_type = "grid")
+#' \dontrun{plot_scatter(data = changes_df, x_var = "old_mean", y_var = "new_mean", facet_x = "ihme_loc_id", color_pt = "year_id", facet_type = "wrap")}
+#' \dontrun{plot_scatter(data = changes_df, x_var = "old_mean", y_var = "new_mean, facet_x = "ihme_loc_id", facet_y = "sex_id, facet_type = "grid")}
 plot_scatter <- function(data, 
                          x_var, 
                          y_var, 
