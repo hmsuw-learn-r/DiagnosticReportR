@@ -20,7 +20,7 @@ Depends:
 Imports:
     data.table,
     assertable,
-    stats
+    stats,
     rmarkdown
 Suggests:
     testthat
