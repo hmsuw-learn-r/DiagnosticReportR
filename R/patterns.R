@@ -107,21 +107,4 @@ plot_trends <- function(data,
   
 }
 
-# my_trends <- plot_trends(level_changes[rank <= 5],
-#             time_var = "year_id",
-#             y1_var = "old_mean",
-#             y2_var = "new_mean",
-#             facet_type = "wrap",
-#             facet_x = "ihme_loc_id",
-#             my_labs = c("previous", "new"),
-#             line_size = 1)
-# 
-# my_trends <- my_trends + 
-#   xlab("Year") + 
-#   ylab("Birth Sex Ratio Estimate") + 
-#   labs(color = "Version") +
-#   ggtitle("Locations ranked in top 5 in mean absolute percent difference (level changes) between model versions")
-# 
-# pdf("/ihme/scratch/users/mobergm/top_5_level_change_locs.pdf", height = 6, width = 9)
-# my_trends
-# dev.off()
+

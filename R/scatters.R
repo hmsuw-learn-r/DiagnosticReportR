@@ -96,23 +96,3 @@ plot_scatter <- function(data,
   
   return(my_scatter)
 }
-
-# test <- plot_scatter(road_inj_inc[age_group_id == 27 & year_id > 1995], 
-#              x_var = "mean_19",
-#              y_var = "mean_20",
-#              facet_x = "year_id",
-#              facet_y = "sex_id",
-#              facet_type = "grid",
-#              pt_size = 2,
-#              color_pt = "super_region_name")
-# 
-# test <- test +
-#   xlab("GBD 2019 best model") +
-#   ylab("GBD 2020 best model") +
-#   labs(color = "Super Region") +
-#   ggtitle("Comparing national level estimates for age-standardized road injury incidence") +
-#   scale_color_manual(values = c("#fa782a","#dc5356","#c84b98","#6949c2","#2a53cd","#64b95e","#2aa3cd")) 
-#   
-# pdf("/ihme/scratch/users/mobergm/road_inj_scatter.pdf", width = 14, height = 6)
-# test
-# dev.off()
