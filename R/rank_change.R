@@ -78,6 +78,7 @@ rank_change <- function(new_data,
   # Check inputs ---------------------------------------------------------------
 
   for(dt in c("new_data", "old_data")) {
+
     data <- get(dt)
     assert_values(data, names(data), "not_na", quiet = T)
     assert_colnames(data, c(id_vars, comparison_var), quiet = T)
@@ -115,8 +116,16 @@ rank_change <- function(new_data,
       stop("Trend changes can only be assessed by one variable.")
     }
 
-    if(!is.integer(threshold) | threshold < 1) {
-      stop("threshold must be a non-negative integer for trend analysis.")
+    if(threshold < 1) {
+      stop("threshold must be a non-negative  for trend analysis.")
+    }
+
+    if(!is.integer(threshold)) {
+
+      warning("threshold is not an integer. Coercing.")
+
+      threshold <- as.integer(threshold)
+
     }
 
     min_group_size <- min(c(old_data[, .N, by = group_vars]$N,
