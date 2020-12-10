@@ -43,28 +43,25 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' rank_change(new_data,
 #'             old_data,
 #'             change_type = "level",
-#'             threshold = 20,
+#'             threshold = 5,
 #'             comparison_var = "outcome",
-#'             id_vars = c("sex", "country", "year"),
-#'             group_vars = c("sex", "country"),
-#'             )
+#'             id_vars = c("year", "group"),
+#'             group_vars = "group")
 #'
 #' rank_change(new_data,
-#'             old_data,
+#'             old_data_alt,
 #'             change_type = "trend",
-#'             threshold = 3,
+#'             threshold = 1L,
 #'             comparison_var = "outcome",
-#'             id_vars = c("sex", "country", "year"),
-#'             group_vars = c("sex", "country"),
-#'             trend_var = "year"
-#'             )
-#' }
+#'             id_vars = c("year", "group"),
+#'             group_vars = "group",
+#'             trend_var = "year")
 
-rank_changes <- function(new_data,
+
+rank_change <- function(new_data,
                          old_data,
                          change_type,
                          threshold = 1,
