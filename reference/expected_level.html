@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • DiagnosticReportR</title>
+<title>The expected level analysis — expected_level • DiagnosticReportR</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="The expected level analysis — expected_level" />
+<meta property="og:description" content="The expected level analysis associated with the test on old_data and
+new_data by the grouping variable. The variables are as follows:" />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -105,86 +107,41 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>The expected level analysis</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hmsuw-learn-r/DiagnosticReportR/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>expected_level.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>The expected level analysis associated with the test on old_data and
+new_data by the grouping variable. The variables are as follows:</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='va'>expected_level</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="example_add.html">example_add()</a></code> </p>
-        </td>
-        <td><p>Example Addition Function Title</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="expected_level.html">expected_level</a></code> </p>
-        </td>
-        <td><p>The expected level analysis</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="expected_trend.html">expected_trend</a></code> </p>
-        </td>
-        <td><p>The expected trend analysis</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="new_data.html">new_data</a></code> </p>
-        </td>
-        <td><p>An outcome variable measured over time for different groups. Measured using
-a different method and/or different input data.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="new_data_alt.html">new_data_alt</a></code> </p>
-        </td>
-        <td><p>Another outcome variable measured over time for different groups. Measured
-using a different method and/or different input data.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="old_data.html">old_data</a></code> </p>
-        </td>
-        <td><p>An outcome variable measured over time for different groups</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="old_data_alt.html">old_data_alt</a></code> </p>
-        </td>
-        <td><p>Another outcome variable measured over time for different groups</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rank_changes.html">rank_changes()</a></code> </p>
-        </td>
-        <td><p>rank_change</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 9 rows and 3 variables:</p><dl>
+<dt>old_outcome</dt><dd><p>The original outcome of interest</p></dd>
+<dt>new_outcome</dt><dd><p>The revised outcome of interest</p></dd>
+<dt>year</dt><dd><p>Year the data was "collected"</p></dd>
+<dt>group</dt><dd><p>The group associated with the outcome</p></dd>
+<dt>pert_diff</dt><dd><p>The percentage difference between new_outcome and
+old_outcome</p></dd>
+<dt>max_abs_pert_diff</dt><dd><p>The maximum absolute percentage difference in
+each group</p></dd>
+<dt>mean_abs_pert_diff</dt><dd><p>The mean absolute percentage difference in each
+group</p></dd>
+<dt>rank</dt><dd><p>The ranking of the differences in the outcome variable between
+the new and old data where 1 is the greatest mean_abs_pert_diff.</p></dd>
+
+</dl>
+
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
