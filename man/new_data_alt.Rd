@@ -3,8 +3,7 @@
 \docType{data}
 \name{new_data_alt}
 \alias{new_data_alt}
-\title{Another outcome variable measured over time for different groups. Measured
-using a different method and/or different input data.}
+\title{Another new outcome variable measured over time for different groups.}
 \format{
 A data frame with 6 rows and 3 variables:
 \describe{
@@ -17,7 +16,9 @@ A data frame with 6 rows and 3 variables:
 new_data_alt
 }
 \description{
-An example data set with an outcome and a grouping variable. The variables
-are as follows:
+An example data set with an outcome and a grouping variable. Measured using
+a different method and/or different input data. The only
+differences between new_data and new_data_alt are the number of groups and
+the outcomes. The variables are as follows:
 }
 \keyword{datasets}

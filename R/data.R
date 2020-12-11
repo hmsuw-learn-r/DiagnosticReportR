@@ -1,4 +1,4 @@
-#' An outcome variable measured over time for different groups
+#' An old outcome variable measured over time for different groups
 #'
 #' An example data set with an outcome and a grouping variable. The variables
 #'  are as follows:
@@ -11,10 +11,11 @@
 #' }
 "old_data"
 
-#' Another outcome variable measured over time for different groups
+#' Another old outcome variable measured over time for different groups
 #'
-#' An example data set with an outcome and a grouping variable. The variables
-#'  are as follows:
+#' An example data set with an outcome and a grouping variable. The only
+#' difference between old_data nd old_data_alt is the outcome variable.
+#' The variables are as follows:
 #'
 #' @format A data frame with 9 rows and 3 variables:
 #' \describe{
@@ -24,11 +25,10 @@
 #' }
 "old_data_alt"
 
-#' An outcome variable measured over time for different groups. Measured using
-#' a different method and/or different input data.
+#' A new outcome variable measured over time for different groups.
 #'
-#' An example data set with an outcome and a grouping variable. The variables
-#'  are as follows:
+#' An example data set with an outcome and a grouping variable. Measured using
+#' a different method and/or different input data. The variables are as follows:
 #'
 #' @format A data frame with 9 rows and 3 variables:
 #' \describe{
@@ -38,11 +38,12 @@
 #' }
 "new_data"
 
-#' Another outcome variable measured over time for different groups. Measured
-#' using a different method and/or different input data.
+#' Another new outcome variable measured over time for different groups.
 #'
-#' An example data set with an outcome and a grouping variable. The variables
-#'  are as follows:
+#' An example data set with an outcome and a grouping variable. Measured using
+#' a different method and/or different input data. The only
+#' differences between new_data and new_data_alt are the number of groups and
+#' the outcomes. The variables are as follows:
 #'
 #' @format A data frame with 6 rows and 3 variables:
 #' \describe{
@@ -55,7 +56,8 @@
 #' The expected level analysis
 #'
 #' The expected level analysis associated with the test on old_data and
-#' new_data by the grouping variable. The variables are as follows:
+#' new_data by the grouping variable. See the tests for input arguements.
+#' The variables are as follows:
 #'
 #' @format A data frame with 9 rows and 3 variables:
 #' \describe{
@@ -77,7 +79,8 @@
 #' The expected trend analysis
 #'
 #' The expected trend analysis associated with the test on old_data and
-#' new_data by the grouping variable. The variables are as follows:
+#' new_data by the grouping variable. See the tests for input arguements.
+#' The variables are as follows:
 #'
 #' @format A data frame with 9 rows and 3 variables:
 #' \describe{
