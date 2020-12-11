@@ -1,0 +1,144 @@
+---
+title: "Level and Trend Change Summary"
+date: "Compiled at `r Sys.time()`"
+output: html_document
+params:
+  old_data_name: "Old Data"
+  new_data_name: "New Data"
+  old_data: !r data("old_data", package = "DiagnosticReportR"); old_data
+  new_data: !r data("new_data", package = "DiagnosticReportR"); new_data
+  level_threshold: 20
+  trend_threshold: 1
+  comparison_var: "outcome"
+  id_vars: !r c("year", "group")
+  group_vars: "group"
+  trend_var: "year"
+  scatter_color_var: !r NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(DiagnosticReportR)
+library(data.table)
+library(ggplot2)
+```
+
+## Overview
+
+This diagnostic report presents a basic overview of the trend and level changes 
+between the data sets **`r params$old_data_name`** and 
+**`r params$new_data_name`**.
+
+## Input Data Summary
+
+### `r params$old_data_name`
+
+**Shape:** (`r dim(params$old_data)`)
+
+```{r}
+knitr::kable(
+  head(params$old_data, n = 10),
+  caption = "Head of data"
+)
+```
+
+### `r params$new_data_name`
+
+**Shape:** (`r dim(params$new_data)`)
+
+```{r}
+knitr::kable(
+  head(params$new_data, n = 10),
+  caption = "Head of data"
+)
+```
+
+
+</br>
+
+## Rank Change Analysis
+
+**Rank Change parameters:**
+
+ - ID variables: **`r params$id_vars`**
+ - Group variables: **`r params$group_vars`**
+ - Comparison variable: **`r params$comparison_var`**
+ - Level threshold variable: **`r params$level_threshold`**
+ - Trend threshold variable: **`r params$trend_threshold`**
+ - Trend variable: **`r params$trend_var`**
+
+
+### Level Changes
+
+```{r}
+level_changes <- rank_change(
+  params$new_data,
+  params$old_data,
+  change_type = "level",
+  threshold = params$level_threshold,
+  comparison_var = params$comparison_var,
+  id_vars = params$id_vars,
+  group_vars = params$group_vars
+)
+
+knitr::kable(
+  level_changes[rank <= 10],
+  caption = "Top 10 greatest changes by level"
+)
+
+```
+
+
+### Trend Changes
+
+```{r}
+trend_changes <- rank_change(
+  params$new_data,
+  params$old_data,
+  change_type = "trend",
+  threshold = as.integer(params$trend_threshold),
+  comparison_var = params$comparison_var,
+  id_vars = params$id_vars,
+  group_vars = params$group_vars,
+  trend_var = params$trend_var
+)
+
+knitr::kable(
+  trend_changes[rank <= 10],
+  caption = "Top 10 greatest changes by trend"
+)
+```
+
+
+</br>
+
+## Summary Diagnostic Plots
+
+```{r, fig.align='center', dpi=250}
+level_scatter <- plot_scatter(
+  data = level_changes, 
+  x_var = "old_outcome", 
+  y_var = "new_outcome",
+  color_pt = params$scatter_color_var
+)
+
+level_scatter +
+  labs(
+    title = "Level Scatter",
+    x = paste("Old", params$comparison_var),
+    y = paste("New", params$comparison_var)
+  )
+```
+
+```{r, fig.align='center', dpi=250}
+trend_plot <- plot_trends(
+  trend_changes, 
+  time_var = params$trend_var, 
+  y1_var = "old_outcome", 
+  y2_var = "new_outcome", 
+  colors = c("blue", "red")
+)
+
+trend_plot + labs(title = "Trend Changes")
+```
