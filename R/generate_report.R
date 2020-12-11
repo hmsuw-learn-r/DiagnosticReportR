@@ -60,6 +60,7 @@ generate_report <- function(template,
     input = template_file,
     params = params,
     output_dir = output_dir,
+    envir = new.env(),
     ...
   )
 
