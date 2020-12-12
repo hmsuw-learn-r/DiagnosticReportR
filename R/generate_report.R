@@ -14,7 +14,28 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Proof of concept report
 #' generate_report("test_report")
+#'
+#' # Basic tend/level summary report
+#' report_params <- list(
+#'   old_data = old_data,
+#'   new_data = new_data,
+#'   level_threshold = 20,
+#'   trend_threshold = 1,
+#'   comparison_var = "outcome",
+#'   id_vars = c("year", "group"),
+#'   group_vars = "group",
+#'   trend_var = "year",
+#'   scatter_color_var = "group"
+#' )
+#'
+#' generate_report(
+#'   "level_trend_summary",
+#'   params = report_params,
+#'   output_dir = "~"
+#' )
+#'
 #' }
 generate_report <- function(template,
                             params = NULL,
@@ -60,6 +81,7 @@ generate_report <- function(template,
     input = template_file,
     params = params,
     output_dir = output_dir,
+    envir = new.env(),
     ...
   )
 
