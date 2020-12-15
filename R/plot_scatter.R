@@ -35,12 +35,14 @@
 #'
 #' @examples 
 #' \dontrun{
-#' plot_scatter(data = level_changes, 
+#' plot_scatter(trend_changes_USA, 
 #'              x_var = "old_mean", 
 #'              y_var = "new_mean", 
 #'              facet_x = "ihme_loc_id", 
-#'              color_pt = "year_id", 
-#'              facet_type = "wrap")}
+#'              pt_size = 2, 
+#'              facet_type = "wrap", 
+#'              fix_scale = TRUE, 
+#'              color_pt = "year_id")}
 plot_scatter <- function(data, 
                          x_var, 
                          y_var, 
