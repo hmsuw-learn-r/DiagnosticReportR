@@ -1,4 +1,4 @@
-#' plot_trends
+#' plot_pattern
 #' 
 #' This function can be used to visualize the results of the rank_change function, or to otherwise 
 #' compare values from two different model versions or sets of estimates. This can help streamline 
