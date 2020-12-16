@@ -42,17 +42,15 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' plot_trends(trend_changes, 
+#' plot_trends(trend_changes_USA, 
 #'             time_var = "year_id", 
 #'             y1_var = "old_mean", 
 #'             y2_var = "new_mean", 
 #'             facet_x = "ihme_loc_id",
-#'             colors = c("blue", "red"),
 #'             my_labs = c("previous","new"),
 #'             facet_type = "wrap",
 #'             line_size = 2)
-#'             }
+
 plot_trends <- function(data, 
                         time_var,
                         y1_var, 

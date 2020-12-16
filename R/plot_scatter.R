@@ -34,7 +34,6 @@
 #' @export
 #'
 #' @examples 
-#' \dontrun{
 #' plot_scatter(trend_changes_USA, 
 #'              x_var = "old_mean", 
 #'              y_var = "new_mean", 
@@ -42,7 +41,8 @@
 #'              pt_size = 2, 
 #'              facet_type = "wrap", 
 #'              fix_scale = TRUE, 
-#'              color_pt = "year_id")}
+#'              color_pt = "year_id")
+
 plot_scatter <- function(data, 
                          x_var, 
                          y_var, 
