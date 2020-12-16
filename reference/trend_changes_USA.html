@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • DiagnosticReportR</title>
+<title>Old and new outcome variable measured over time for different locations in the U.S. — trend_changes_USA • DiagnosticReportR</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Authors" />
+<meta property="og:title" content="Old and new outcome variable measured over time for different locations in the U.S. — trend_changes_USA" />
+<meta property="og:description" content="An example of output data from rank_change function for trend analysis. This data is
+a subset of a larger output file. The variables are as follows:" />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -70,7 +72,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">DiagnosticReportR</a>
+        <a class="navbar-link" href="../index.html">DiagnosticReportR</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
       </span>
     </div>
@@ -78,13 +80,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -105,30 +107,40 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Authors</h1>
+    <h1>Old and new outcome variable measured over time for different locations in the U.S.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/hmsuw-learn-r/DiagnosticReportR/blob/master/R/plotting_data.R'><code>R/plotting_data.R</code></a></small>
+    <div class="hidden name"><code>trend_changes_USA.Rd</code></div>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Erin May</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Madeline Moberg</strong>. Author. 
-        </p>
-      </li>
-      <li>
-        <p><strong>Spencer Pease</strong>. Maintainer, author. 
-        </p>
-      </li>
-    </ul>
+    <div class="ref-description">
+    <p>An example of output data from rank_change function for trend analysis. This data is
+a subset of a larger output file. The variables are as follows:</p>
+    </div>
+
+    <pre class="usage"><span class='va'>trend_changes_USA</span></pre>
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 121 rows and 5 columns</p><dl>
+<dt>ihme_loc_id</dt><dd><p>Location identifier, three letter country code plus state code</p></dd>
+<dt>year_id</dt><dd><p>Year identifier for the estimates</p></dd>
+<dt>new_mean</dt><dd><p>The newer estimate</p></dd>
+<dt>old_mean</dt><dd><p>The older estimate</p></dd>
+<dt>rank</dt><dd><p>The rank of each location, determined by rank_change</p></dd>
+
+</dl>
+
 
   </div>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
+  </div>
 </div>
-
 
 
       <footer>

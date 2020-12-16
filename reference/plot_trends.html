@@ -42,12 +42,13 @@
 <meta property="og:title" content="plot_trends — plot_trends" />
 <meta property="og:description" content="This function can be used to visualize the results of the rank_change function, or to otherwise
 compare values from two different model versions or sets of estimates. This can help streamline
-the vetting process. All characteristics for each estimate should be matched, e.g. year, location,
-age. plot_trends creates plots of the estimates over some unit of time comparing the two sets
-of results. This could be used for time trends across years, or age patterns. The options for faceting
-or coloring allow the user to customize the plot to maximize utility. This function assumes that the
-two sets of estimates are in two different columns, e.g. old_mean and new_mean, and uses pivot_longer
-from tidyr to reshape the data long to make plotting more straightforward and flexible." />
+the vetting process. All characteristics for each estimate should be matched, e.g. year,
+location, age. plot_trends creates plots of the estimates over some unit of time comparing the
+two sets of results. This could be used for time trends across years, or age patterns. The
+options for faceting or coloring allow the user to customize the plot to maximize utility. This
+function assumes that the two sets of estimates are in two different columns, e.g. old_mean and
+new_mean, and uses pivot_longer from tidyr to reshape the data long to make plotting more
+straightforward and flexible." />
 
 
 
@@ -87,7 +88,7 @@ from tidyr to reshape the data long to make plotting more straightforward and fl
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -98,7 +99,7 @@ from tidyr to reshape the data long to make plotting more straightforward and fl
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/hmsuw-learn-r/DiagnosticReportR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -116,19 +117,20 @@ from tidyr to reshape the data long to make plotting more straightforward and fl
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>plot_trends</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hmsuw-learn-r/DiagnosticReportR/blob/master/R/patterns.R'><code>R/patterns.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/hmsuw-learn-r/DiagnosticReportR/blob/master/R/plot_trends.R'><code>R/plot_trends.R</code></a></small>
     <div class="hidden name"><code>plot_trends.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>This function can be used to visualize the results of the rank_change function, or to otherwise
 compare values from two different model versions or sets of estimates. This can help streamline
-the vetting process. All characteristics for each estimate should be matched, e.g. year, location,
-age. plot_trends creates plots of the estimates over some unit of time comparing the two sets
-of results. This could be used for time trends across years, or age patterns. The options for faceting
-or coloring allow the user to customize the plot to maximize utility. This function assumes that the
-two sets of estimates are in two different columns, e.g. old_mean and new_mean, and uses pivot_longer
-from tidyr to reshape the data long to make plotting more straightforward and flexible.</p>
+the vetting process. All characteristics for each estimate should be matched, e.g. year,
+location, age. plot_trends creates plots of the estimates over some unit of time comparing the
+two sets of results. This could be used for time trends across years, or age patterns. The
+options for faceting or coloring allow the user to customize the plot to maximize utility. This
+function assumes that the two sets of estimates are in two different columns, e.g. old_mean and
+new_mean, and uses pivot_longer from tidyr to reshape the data long to make plotting more
+straightforward and flexible.</p>
     </div>
 
     <pre class="usage"><span class='fu'>plot_trends</span><span class='op'>(</span>
@@ -159,8 +161,8 @@ output of rank_change function. Required!</p></td>
     </tr>
     <tr>
       <th>y1_var</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable name for first set of results/estimates, e.g. the previous or
-old set for comparison. Required!</p></td>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable name for first set of results/estimates, e.g. the previous
+or old set for comparison. Required!</p></td>
     </tr>
     <tr>
       <th>y2_var</th>
@@ -183,9 +185,9 @@ order to use facet_grid. Defaults to NULL.</p></td>
     </tr>
     <tr>
       <th>facet_type</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Choice of "none", "wrap", or "grid". Defaults to "none". The "none"
-option will create a single plot. The "wrap" option will produce a plot using facet_wrap. The "grid"
-option will produce a plot using facet_grid. Required!</p></td>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Choice of "none", "wrap", or "grid". Defaults to "none". The
+"none" option will create a single plot. The "wrap" option will produce a plot using facet_wrap.
+The "grid" option will produce a plot using facet_grid. Required!</p></td>
     </tr>
     <tr>
       <th>colors</th>
@@ -195,8 +197,9 @@ but can be otherwise specified by the user.</p></td>
     </tr>
     <tr>
       <th>my_labs</th>
-      <td><p>Vector. This vector would contain the labels/names you want to use for the two different sets of
-estimates. If left blank this will default to the column names for y1_var and y2_var.</p></td>
+      <td><p>Vector. This vector would contain the labels/names you want to use for the two
+different sets of estimates. If left blank this will default to the column names for y1_var
+and y2_var.</p></td>
     </tr>
     <tr>
       <th>line_size</th>
@@ -209,8 +212,15 @@ estimates. If left blank this will default to the column names for y1_var and y2
     <p>A ggplot object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>plot_trends</span><span class='op'>(</span><span class='va'>trend_changes</span>, time_var <span class='op'>=</span> <span class='st'>"year_id"</span>, y1_var <span class='op'>=</span> <span class='st'>"old_mean"</span>, y2_var <span class='op'>=</span> <span class='st'>"new_mean"</span>, colors <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"blue"</span>, <span class='st'>"red"</span><span class='op'>)</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>plot_trends</span><span class='op'>(</span><span class='va'>trend_changes_USA</span>, 
+            time_var <span class='op'>=</span> <span class='st'>"year_id"</span>, 
+            y1_var <span class='op'>=</span> <span class='st'>"old_mean"</span>, 
+            y2_var <span class='op'>=</span> <span class='st'>"new_mean"</span>, 
+            facet_x <span class='op'>=</span> <span class='st'>"ihme_loc_id"</span>,
+            my_labs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"previous"</span>,<span class='st'>"new"</span><span class='op'>)</span>,
+            facet_type <span class='op'>=</span> <span class='st'>"wrap"</span>,
+            line_size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_trends-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

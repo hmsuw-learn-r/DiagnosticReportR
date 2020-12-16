@@ -40,10 +40,12 @@
 
 
 <meta property="og:title" content="plot_scatter — plot_scatter" />
-<meta property="og:description" content="This function can be used to visualize the results of the rank_change function, or to otherwise compare values from two
-different model versions or sets of estimates. This can help streamline the vetting process. All characteristics for each estimate
-should be matched, e.g. year, location, age. Plot_scatter creates scatter plots comparing the two sets of results. The various
-options for faceting or coloring the points allow the user to customize the plot to maximize utility." />
+<meta property="og:description" content="This function can be used to visualize the results of the rank_change function, or to otherwise
+compare values from two different model versions or sets of estimates. This can help streamline
+the vetting process. All characteristics for each estimate should be matched, e.g. year,
+location, age. Plot_scatter creates scatter plots comparing the two sets of results. The
+various options for faceting or coloring the points allow the user to customize the plot to
+maximize utility." />
 
 
 
@@ -83,7 +85,7 @@ options for faceting or coloring the points allow the user to customize the plot
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -94,7 +96,7 @@ options for faceting or coloring the points allow the user to customize the plot
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/hmsuw-learn-r/DiagnosticReportR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -112,15 +114,17 @@ options for faceting or coloring the points allow the user to customize the plot
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>plot_scatter</h1>
-    <small class="dont-index">Source: <a href='https://github.com/hmsuw-learn-r/DiagnosticReportR/blob/master/R/scatters.R'><code>R/scatters.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/hmsuw-learn-r/DiagnosticReportR/blob/master/R/plot_scatter.R'><code>R/plot_scatter.R</code></a></small>
     <div class="hidden name"><code>plot_scatter.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function can be used to visualize the results of the rank_change function, or to otherwise compare values from two
-different model versions or sets of estimates. This can help streamline the vetting process. All characteristics for each estimate
-should be matched, e.g. year, location, age. Plot_scatter creates scatter plots comparing the two sets of results. The various
-options for faceting or coloring the points allow the user to customize the plot to maximize utility.</p>
+    <p>This function can be used to visualize the results of the rank_change function, or to otherwise
+compare values from two different model versions or sets of estimates. This can help streamline
+the vetting process. All characteristics for each estimate should be matched, e.g. year,
+location, age. Plot_scatter creates scatter plots comparing the two sets of results. The
+various options for faceting or coloring the points allow the user to customize the plot to
+maximize utility.</p>
     </div>
 
     <pre class="usage"><span class='fu'>plot_scatter</span><span class='op'>(</span>
@@ -141,27 +145,33 @@ options for faceting or coloring the points allow the user to customize the plot
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>data.frame or data.table. Data to plot comparing two sets of estimates, e.g. output of rank_change function. Required!</p></td>
+      <td><p>data.frame or data.table. Data to plot comparing two sets of estimates, e.g.
+output of rank_change function. Required!</p></td>
     </tr>
     <tr>
       <th>x_var</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable to plot on the x-axis, e.g the "old" version or previous estimate. Required!</p></td>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable to plot on the x-axis, e.g the "old" version or
+previous estimate. Required!</p></td>
     </tr>
     <tr>
       <th>y_var</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable to plot on the y-axis, e.g. the "new" version or updated estimate. Required!</p></td>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable to plot on the y-axis, e.g. the "new" version or
+updated estimate. Required!</p></td>
     </tr>
     <tr>
       <th>facet_x</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable to facet by, along x-axis. This is required in order to use facet_wrap and facet_grid. Defaults to NULL.</p></td>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable to facet by, along x-axis. This is required in order
+to use facet_wrap and facet_grid. Defaults to NULL.</p></td>
     </tr>
     <tr>
       <th>facet_y</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable to facet by, along y-axis, if desired. This is required in order to use facet_grid. Defaults to NULL.</p></td>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable to facet by, along y-axis, if desired. This is required
+in order to use facet_grid. Defaults to NULL.</p></td>
     </tr>
     <tr>
       <th>color_pt</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable to modify color of geom_point, if desired. Defaults to NULL.</p></td>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Variable to modify color of geom_point, if desired.
+Defaults to NULL.</p></td>
     </tr>
     <tr>
       <th>pt_size</th>
@@ -173,12 +183,14 @@ options for faceting or coloring the points allow the user to customize the plot
     </tr>
     <tr>
       <th>facet_type</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Choice of "none", "wrap", or "grid". Defaults to "none". The "none" option will create a single plot.
-The "wrap" option will produce a plot using facet_wrap. The "grid" option will produce a plot using facet_grid.</p></td>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character()</a></code> Choice of "none", "wrap", or "grid". Defaults to "none". The
+"none" option will create a single plot. The "wrap" option will produce a plot using facet_wrap.
+The "grid" option will produce a plot using facet_grid.</p></td>
     </tr>
     <tr>
       <th>fix_scale</th>
-      <td><p><code>boolean()</code> Option to fix the axes for plot, using the min and max values. Defaults to FALSE. Will override scales = "free".</p></td>
+      <td><p><code>boolean()</code> Option to fix the axes for plot, using the min and max values.
+Defaults to FALSE. Will override scales = "free".</p></td>
     </tr>
     </table>
 
@@ -187,8 +199,15 @@ The "wrap" option will produce a plot using facet_wrap. The "grid" option will p
     <p>A ggplot object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='fu'>plot_scatter</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>level_changes</span>, x_var <span class='op'>=</span> <span class='st'>"old_mean"</span>, y_var <span class='op'>=</span> <span class='st'>"new_mean"</span>, facet_x <span class='op'>=</span> <span class='st'>"ihme_loc_id"</span>, color_pt <span class='op'>=</span> <span class='st'>"year_id"</span>, facet_type <span class='op'>=</span> <span class='st'>"wrap"</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>plot_scatter</span><span class='op'>(</span><span class='va'>trend_changes_USA</span>, 
+             x_var <span class='op'>=</span> <span class='st'>"old_mean"</span>, 
+             y_var <span class='op'>=</span> <span class='st'>"new_mean"</span>, 
+             facet_x <span class='op'>=</span> <span class='st'>"ihme_loc_id"</span>, 
+             pt_size <span class='op'>=</span> <span class='fl'>2</span>, 
+             facet_type <span class='op'>=</span> <span class='st'>"wrap"</span>, 
+             fix_scale <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+             color_pt <span class='op'>=</span> <span class='st'>"year_id"</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_scatter-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
