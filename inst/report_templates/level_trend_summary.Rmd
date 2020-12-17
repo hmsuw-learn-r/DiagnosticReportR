@@ -8,7 +8,7 @@ params:
   old_data: !r data("old_data", package = "DiagnosticReportR"); old_data
   new_data: !r data("new_data", package = "DiagnosticReportR"); new_data
   level_threshold: 20
-  trend_threshold: 1
+  trend_bins: 1
   comparison_var: "outcome"
   id_vars: !r c("year", "group")
   group_vars: "group"
@@ -65,17 +65,16 @@ knitr::kable(
  - Group variables: **`r params$group_vars`**
  - Comparison variable: **`r params$comparison_var`**
  - Level threshold variable: **`r params$level_threshold`**
- - Trend threshold variable: **`r params$trend_threshold`**
+ - Trend bins variable: **`r params$trend_bins`**
  - Trend variable: **`r params$trend_var`**
 
 
 ### Level Changes
 
 ```{r}
-level_changes <- rank_change(
+level_changes <- rank_level(
   params$new_data,
   params$old_data,
-  change_type = "level",
   threshold = params$level_threshold,
   comparison_var = params$comparison_var,
   id_vars = params$id_vars,
@@ -93,11 +92,10 @@ knitr::kable(
 ### Trend Changes
 
 ```{r}
-trend_changes <- rank_change(
+trend_changes <- rank_trend(
   params$new_data,
   params$old_data,
-  change_type = "trend",
-  threshold = as.integer(params$trend_threshold),
+  numb_bins = as.integer(params$trend_bins),
   comparison_var = params$comparison_var,
   id_vars = params$id_vars,
   group_vars = params$group_vars,
