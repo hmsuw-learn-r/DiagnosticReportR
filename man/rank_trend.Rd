@@ -11,7 +11,7 @@ rank_trend(
   comparison_var,
   id_vars,
   group_vars,
-  trend_var = NULL,
+  trend_var,
   displace_old_zero = 1e-10
 )
 }
