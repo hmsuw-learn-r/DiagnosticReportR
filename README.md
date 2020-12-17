@@ -5,7 +5,7 @@
 <!-- badges: end -->
 
 
-A suite of functions desgined to streamline the process of comparing models and
+A suite of functions designed to streamline the process of comparing models and
 presenting these diagnostics as a standardized, compiled report.
 
 ## Installation
