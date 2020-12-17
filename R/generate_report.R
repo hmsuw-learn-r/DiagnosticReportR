@@ -22,7 +22,7 @@
 #'   old_data = old_data,
 #'   new_data = new_data,
 #'   level_threshold = 20,
-#'   trend_threshold = 1,
+#'   trend_bins = 1,
 #'   comparison_var = "outcome",
 #'   id_vars = c("year", "group"),
 #'   group_vars = "group",

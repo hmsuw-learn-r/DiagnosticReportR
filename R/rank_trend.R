@@ -53,7 +53,7 @@ rank_trend <- function(new_data,
                        comparison_var,
                        id_vars,
                        group_vars,
-                       trend_var = NULL,
+                       trend_var,
                        displace_old_zero = 1e-10) {
 
   # arguments set up -----------------------------------------------------------
