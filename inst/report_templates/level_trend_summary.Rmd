@@ -14,14 +14,23 @@ params:
   group_vars: "group"
   trend_var: "year"
   scatter_color_var: !r NULL
+  plot_facet_var: !r NULL
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
 library(knitr)
 library(DiagnosticReportR)
 library(data.table)
 library(ggplot2)
+
+if (is.null(params$plot_facet_var)) {
+  facet_type_var <- "none"
+} else {
+  facet_type_var <- "wrap"
+}
+
 ```
 
 ## Overview
@@ -82,7 +91,11 @@ level_changes <- rank_level(
 )
 
 knitr::kable(
-  level_changes[rank <= 10],
+  unique(level_changes[
+    rank <= 10,
+    .SD,
+    .SDcols = c(params$group_vars, "mean_abs_pert_diff", "rank")
+  ]),
   caption = "Top 10 greatest changes by level"
 )
 
@@ -103,7 +116,11 @@ trend_changes <- rank_trend(
 )
 
 knitr::kable(
-  trend_changes[rank <= 10],
+  unique(trend_changes[
+    rank <= 10,
+    .SD,
+    .SDcols = c(params$group_vars, "mean_abs_pert_diff", "numb_sign_change", "rank")
+  ]),
   caption = "Top 10 greatest changes by trend"
 )
 ```
@@ -113,12 +130,14 @@ knitr::kable(
 
 ## Summary Diagnostic Plots
 
-```{r, fig.align='center', dpi=250}
+```{r, fig.align='center', dpi=200, fig.width=12}
 level_scatter <- plot_scatter(
   data = level_changes, 
-  x_var = "old_outcome", 
-  y_var = "new_outcome",
-  color_pt = params$scatter_color_var
+  x_var = paste0("old_", params$comparison_var),
+  y_var = paste0("new_", params$comparison_var),
+  color_pt = params$scatter_color_var,
+  facet_x = params$plot_facet_var,
+  facet_type = facet_type_var
 )
 
 level_scatter +
@@ -129,13 +148,15 @@ level_scatter +
   )
 ```
 
-```{r, fig.align='center', dpi=250}
+```{r, fig.align='center', dpi=200, fig.width=12}
 trend_plot <- plot_trends(
   trend_changes, 
   time_var = params$trend_var, 
-  y1_var = "old_outcome", 
-  y2_var = "new_outcome", 
-  colors = c("blue", "red")
+  y1_var = paste0("old_", params$comparison_var),
+  y2_var = paste0("new_", params$comparison_var),
+  colors = c("blue", "red"),
+  facet_x = params$plot_facet_var,
+  facet_type = facet_type_var
 )
 
 trend_plot + labs(title = "Trend Changes")
