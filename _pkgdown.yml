@@ -1,0 +1,27 @@
+template:
+  params:
+    bootswatch: sandstone
+
+reference:
+- title: Compare Changes
+  desc: Functions for assessing changes between model estimates.
+- contents:
+  - starts_with("rank_")
+- title: Vizualize Changes
+  desc: Functions for visualizing changes between model estimates.
+- contents:
+  - starts_with("plot_")
+- title: Generate Reports
+  desc: Functions for creating parameterized diagnostic reports.
+- contents:
+  - generate_report
+  - list_templates
+- title: Data
+  desc: Included datasets for examples and testing.
+- contents:
+  - expected_trend
+  - expected_level
+  - starts_with("new_data")
+  - starts_with("old_data")
+  - trend_changes_USA
+
