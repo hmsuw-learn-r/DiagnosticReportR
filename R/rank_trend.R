@@ -1,7 +1,7 @@
 #' rank_trend
 #'
 #' Make comparisons between two versions of the same outcome by some grouping
-#' variables where trend changes are ranked first by the number of slopes
+#' variables where trend changes are ranked first by the number of slopes that
 #' changed sign and then by the greatest mean absolute percentage change to the
 #' smallest.
 #'
@@ -10,9 +10,7 @@
 #' @param numb_bins `numeric()` numb_bins represents the number of bins to use
 #' in the trend analysis within each grouping by group_vars. The default
 #' numb_bins is 1, which would examine the change in the slope (i.e. change in
-#' comparison_var over change in trend_var) by group_vars in the trend analysis,
-#' and would examine changes greater than 1% by group_vars in the level
-#' analysis.
+#' comparison_var over change in trend_var) by group_vars in the trend analysis.
 #' @param comparison_var `numeric()` Outcome variable to make comparisons
 #' over.
 #' @param id_vars Vector of variable names that uniquely identify
